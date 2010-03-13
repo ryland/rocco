@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>{{ title }}</title>
+  <link rel="stylesheet" href="http://jashkenas.github.com/docco/resources/docco.css">
+  <style>
+  #background { 
+    left: 0; width: 715px;
+    background: #f5f5ff;
+    border-right: 1px solid #e5e5ee;
+  }
+
+  td.docs, th.docs {
+    width: auto;
+  }
+
+  td.code, th.code { 
+    width: 650px;
+  }
+
+  th.code {
+    text-align: left;
+  }    
+
+  h1 { margin-left: 0; }
+
+  </style>
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <table cellspacing=0 cellpadding=0>
+  <thead>
+    <tr>
+      <th class=code><h1>{{ title }}</h1></th>
+      <th class=docs></th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#sections}}
+    <tr id='section-{{ num }}'>
+      <td class=code>
+        <div class='highlight'><pre>{{{ code }}}</pre></div>
+      </td>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-{{ num }}">#</a>
+        </div>
+        {{{ docs }}}
+      </td>
+    </tr>
+    {{/sections}}
+  </table>
+</div>
+</body>

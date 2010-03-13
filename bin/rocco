@@ -4,6 +4,7 @@ libdir = File.expand_path('../../lib', __FILE__).sub(/^#{Dir.pwd}\//, '')
 begin
   require 'rdiscount'
   require 'rocco'
+  require 'optparse'
 rescue LoadError
   case $!.to_s
   when /rdiscount/
@@ -27,9 +28,22 @@ rescue LoadError
   raise
 end
 
+options = {}
+OptionParser.new do |opts|
+  opts.banner = "Usage: rocco [options] file1 file2"
+  options[:reverse] = false
+  opts.on( '-r', '--reverse', 'Flip layout, puts code on the left and docs on the right.' ) { options[:reverse] = true }
+  opts.on_tail( '-h', '--help', 'Print this message.') do
+    puts opts
+    exit
+  end
+end.parse!
+
+template = options[:reverse] ? 'reverse_layout.mustache' : nil
+
 ARGV.each do |filename|
   rocco = Rocco.new(filename)
   dest = File.basename(filename, '.rb') + '.html'
   warn "rocco: #{filename} -> #{dest}"
-  File.open(dest, 'wb') { |fd| fd.write(rocco.to_html) }
+  File.open(dest, 'wb') { |fd| fd.write(rocco.to_html(template)) }
 end

@@ -84,8 +84,16 @@ class Rocco
   attr_reader :sections
 
   # Generate HTML output for the entire document.
+  # Takes an optional `template` parameter. 
   require 'rocco/layout'
-  def to_html
+  def to_html(template=nil)
+    # Template can be specified with path, otherwise look in the 
+    # `lib/rocco` directory.
+    if template && !File.exists?(template)
+      template = File.join(File.dirname(__FILE__), "rocco", template) 
+    end
+
+    Rocco::Layout.template_file = template if template
     Rocco::Layout.new(self).render
   end
 
